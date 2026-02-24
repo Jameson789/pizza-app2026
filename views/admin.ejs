@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Admin Page</h1>
+    <% orders.forEach(order => { %> 
+        <p>Name: <%= order.fname %> <%= order.lname %></p>
+        <p>Email: <%= order.email %></p>
+        <p>Pickup or Delivery: <%= order.method %></p>
+        <p>Toppings: <%= Array.isArray(order.toppings) ? order.toppings.join(', ') : "No toppings" %> </p>
+        <p>Size: <%= order.size %></p>
+        <p>Comment: <%= order.comment %></p>
+        <p>Date/Time: <%= order.timestamp.toLocaleString() %></p>
+        <br>
+        <% }) %>
+</body>
+</html>
