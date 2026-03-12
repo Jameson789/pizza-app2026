@@ -68,3 +68,7 @@ input[type="text"], textarea, select {
     color: darkred;
     display: none;
 }
+
+.serverErrors {
+    color: darkred;
+}

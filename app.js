@@ -3,7 +3,7 @@ import mysql2 from 'mysql2';
 import dotenv from 'dotenv';
 
 import { validateForm } from './validation.js';
-validateForm();
+
 
 dotenv.config()
 const app = express();
@@ -67,10 +67,17 @@ app.get('/admin', async (req, res) => {
 // "method":"delivery","toppings":["artichokes"],
 // "size":"small","comment":"","discount":"on"}
 app.post('/submit-order', async (req, res) => {
-    const order = req.body
-    order.timestamp = new Date();
+    const order = req.body;
 
-    console.log(order.timestamp)
+    const valid = validateForm(order);
+
+    if(!valid.isValid){
+        console.log(valid);
+        res.render("home", { errors: valid.errors });
+        return;
+        
+    }
+    
     // Create an array to store the order data
     const params = [
         order.fname,
@@ -87,7 +94,7 @@ app.post('/submit-order', async (req, res) => {
 
     const result = await pool.execute(sql, params);
 
-    console.log(result);
+    //console.log(result);
 
     res.render("confirmation", { order });
 });

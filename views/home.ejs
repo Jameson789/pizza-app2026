@@ -25,6 +25,12 @@
             <a id="contact-button" href="#" role="button">Contact Us</a>
         </header>
 
+        <% if (typeof errors != 'undefined') { %>
+            <% errors.forEach(error => {  %>
+               <p class="serverErrors"> <%= error %> </p>
+            <% }); %>
+        <% } %>
+
         <form id="pizza-form" action="/submit-order" method="post">
 
             <!-- Contact Info -->
