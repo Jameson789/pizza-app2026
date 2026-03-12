@@ -2,6 +2,9 @@ import express from 'express';
 import mysql2 from 'mysql2';
 import dotenv from 'dotenv';
 
+import { validateForm } from './validation.js';
+validateForm();
+
 dotenv.config()
 const app = express();
 const PORT = 3000;
@@ -65,7 +68,9 @@ app.get('/admin', async (req, res) => {
 // "size":"small","comment":"","discount":"on"}
 app.post('/submit-order', async (req, res) => {
     const order = req.body
-    
+    order.timestamp = new Date();
+
+    console.log(order.timestamp)
     // Create an array to store the order data
     const params = [
         order.fname,
@@ -73,11 +78,12 @@ app.post('/submit-order', async (req, res) => {
         order.email,
         order.size,
         order.method,
-        Array.isArray(req.body.toppings) ? req.body.toppings.join(",") : "none"
+        Array.isArray(req.body.toppings) ? req.body.toppings.join(",") : "none",
+        order.comment
     ];
 
     //insert a new order into the db
-    const sql = `INSERT INTO orders (fname, lname, email, method, toppings, size) VALUES (?, ?, ?, ?, ?, ?)`
+    const sql = `INSERT INTO orders (fname, lname, email, size, method, toppings, comment) VALUES (?, ?, ?, ?, ?, ?, ?)`
 
     const result = await pool.execute(sql, params);
 
